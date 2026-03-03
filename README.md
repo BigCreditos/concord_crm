@@ -70,46 +70,47 @@ This is a standard Laravel application. To set it up locally:
    php artisan serve
    ```
 
-## 🐳 Como rodar com Docker/Portainer
+## 🐳 Como Rodar a Stack no Portainer
 
-Esta aplicação está configurada para rodar via **Portainer Stacks** ou Docker Compose.
+Como Engenheiro DevOps, configurei esta aplicação para ser implantada de forma resiliente e automatizada.
 
-### 1. Configuração do Portainer (Stack)
+### 1. Implantação via Portainer (Web Editor ou Git)
 
-Copie o conteúdo do arquivo `docker-compose.yml` e cole no campo "Web editor" ao criar uma nova Stack no Portainer.
+Você tem duas opções principais no Portainer:
 
-### 2. Variáveis de Ambiente Necessárias
+#### Opção A: Git Repository (Recomendado para CI/CD)
+1. No Portainer, vá em **Stacks** -> **Add stack**.
+2. Selecione **Repository**.
+3. Em **Repository URL**, cole: `https://github.com/BigCreditos/concord_crm.git`.
+4. Em **Compose path**, mantenha `docker-compose.yml`.
+5. Clique em **Deploy the stack**.
 
-Certifique-se de configurar as seguintes variáveis no seu arquivo `.env` ou no painel do Portainer:
+#### Opção B: Web Editor
+1. Copie o conteúdo do arquivo `docker-compose.yml` deste repositório.
+2. No Portainer, vá em **Stacks** -> **Add stack**.
+3. Cole o conteúdo no campo **Web editor**.
 
-| Variável | Descrição | Valor Padrão |
+### 2. Variáveis de Ambiente Cruciais
+
+Para que a stack suba corretamente, você **DEVE** definir as seguintes variáveis na seção **Environment variables** do Portainer:
+
+| Variável | Descrição | Exemplo/Ação |
 | :--- | :--- | :--- |
-| `DB_CONNECTION` | Driver do banco | `mysql` |
-| `DB_HOST` | Host do banco | `db` |
-| `DB_PORT` | Porta do banco | `3306` |
-| `DB_DATABASE` | Nome do banco | `concord` |
-| `DB_USERNAME` | Usuário do banco | `concord` |
-| `DB_PASSWORD` | Senha do banco | `concord` |
-| `REDIS_HOST` | Host do Redis | `redis` |
+| `APP_KEY` | Chave de criptografia do Laravel | Gere via `php artisan key:generate` |
+| `DB_DATABASE` | Nome do banco de dados | `concord` |
+| `DB_USERNAME` | Usuário do MySQL | `concord` |
+| `DB_PASSWORD` | Senha do banco (Root e Usuário) | `sua_senha_segura` |
+| `MYSQL_ROOT_PASSWORD` | Senha root do MySQL | `sua_senha_segura` |
 
-### 3. Comandos Úteis
+> [!IMPORTANT]
+> A stack utiliza um serviço de `automator` que aguarda o banco de dados estar pronto (Healthcheck) e executa `php artisan migrate --force` automaticamente.
 
-**Subir a stack localmente:**
+### 3. Operações Pós-Instalação
+
+Se precisar rodar comandos manuais (como gerar a APP_KEY se esqueceu):
 ```bash
-docker compose up -d
+docker exec -it concord-app php artisan key:generate --show
 ```
-
-**Ver logs:**
-```bash
-docker compose logs -f
-```
-
-**Rodar comandos Artisan:**
-```bash
-docker exec -it concord-app php artisan key:generate
-```
-
-O serviço `automator` rodará automaticamente as migrations assim que o banco de dados estiver pronto.
 
 ## 🤝 Contribution
 
