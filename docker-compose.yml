@@ -66,8 +66,7 @@ services:
     image: concordcrm-app:latest
     container_name: concord-automator
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     volumes:
       - .:/var/www/html
     networks:
