@@ -70,6 +70,47 @@ This is a standard Laravel application. To set it up locally:
    php artisan serve
    ```
 
+## 🐳 Como rodar com Docker/Portainer
+
+Esta aplicação está configurada para rodar via **Portainer Stacks** ou Docker Compose.
+
+### 1. Configuração do Portainer (Stack)
+
+Copie o conteúdo do arquivo `docker-compose.yml` e cole no campo "Web editor" ao criar uma nova Stack no Portainer.
+
+### 2. Variáveis de Ambiente Necessárias
+
+Certifique-se de configurar as seguintes variáveis no seu arquivo `.env` ou no painel do Portainer:
+
+| Variável | Descrição | Valor Padrão |
+| :--- | :--- | :--- |
+| `DB_CONNECTION` | Driver do banco | `mysql` |
+| `DB_HOST` | Host do banco | `db` |
+| `DB_PORT` | Porta do banco | `3306` |
+| `DB_DATABASE` | Nome do banco | `concord` |
+| `DB_USERNAME` | Usuário do banco | `concord` |
+| `DB_PASSWORD` | Senha do banco | `concord` |
+| `REDIS_HOST` | Host do Redis | `redis` |
+
+### 3. Comandos Úteis
+
+**Subir a stack localmente:**
+```bash
+docker compose up -d
+```
+
+**Ver logs:**
+```bash
+docker compose logs -f
+```
+
+**Rodar comandos Artisan:**
+```bash
+docker exec -it concord-app php artisan key:generate
+```
+
+O serviço `automator` rodará automaticamente as migrations assim que o banco de dados estiver pronto.
+
 ## 🤝 Contribution
 
 Contributions are welcome! Please feel free to submit Pull Requests or open issues for bugs and feature requests.
