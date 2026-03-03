@@ -96,6 +96,7 @@ Para que a stack suba corretamente, você **DEVE** definir as seguintes variáve
 
 | Variável | Descrição | Exemplo/Ação |
 | :--- | :--- | :--- |
+| `APP_URL` | URL completa do sistema (Dinâmico) | `https://seu-dominio.com` |
 | `APP_KEY` | Chave de criptografia do Laravel | Gere via `php artisan key:generate` |
 | `DB_DATABASE` | Nome do banco de dados | `concord` |
 | `DB_USERNAME` | Usuário do MySQL | `concord` |
